@@ -1,0 +1,48 @@
+<?php
+
+namespace App\Orchid\Layouts;
+
+use App\Models\Recipient;
+use Orchid\Screen\Actions\Button;
+use Orchid\Screen\Actions\Link;
+use Orchid\Screen\Fields\CheckBox;
+use Orchid\Screen\Fields\Group;
+use Orchid\Screen\Layouts\Table;
+use Orchid\Screen\TD;
+
+class MailListLayout extends Table
+{
+    /**
+     * Data source.
+     *
+     * The name of the key to fetch it from the query.
+     * The results of which will be elements of the table.
+     *
+     * @var string
+     */
+    protected $target = 'recipients';
+
+    /**
+     * Get the table cells to be displayed.
+     *
+     * @return TD[]
+     */
+    protected function columns(): iterable
+    {
+        return [
+            TD::make('name', 'ФИО'),
+            TD::make('address', 'Адрес'),
+            TD::make('address_type', 'Тип адреса')
+                ->render(
+                    fn(Recipient $recipient) => $recipient->address_type->description()
+                ),
+            TD::make('actions', '')
+                ->render(
+                    fn(Recipient $recipient) => CheckBox::make(
+                        'address_id['. $recipient->id . ']'
+                    )
+                        ->value($recipient->id)
+                ),
+        ];
+    }
+}
