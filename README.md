@@ -18,9 +18,9 @@
 
     cd server
     composer install
-    sail up -d
     
     cp .env.example .env
+    sail up -d
 
 Добавить токен для телеграмм бота в .env в параметр TELEGRAM_BOT_TOKEN
 
